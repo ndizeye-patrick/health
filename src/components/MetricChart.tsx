@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   LineChart,
   Line,
@@ -19,9 +19,49 @@ interface MetricChartProps {
   unit?: string;
 }
 
-export function MetricChart({ data, title, unit }: MetricChartProps) {
-  const [chartType, setChartType] = useState<'line' | 'bar'>('line');
-  const colors = ['#2563eb', '#dc2626', '#16a34a'];
+// Custom rounded bar shape
+const RoundedBar = (props: any) => {
+  const { fill, x, y, width, height } = props;
+  const radius = 10; // Adjust this value to control roundness
+
+  return (
+    <path
+      d={`
+        M${x},${y + radius} 
+        Q${x + width / 2},${y} ${x + width},${y + radius}
+        L${x + width},${y + height}
+        L${x},${y + height}
+        Z
+      `}
+      fill={fill}
+    />
+  );
+};
+
+export function MetricChart({ data, title, metric, unit }: MetricChartProps) {
+  // Generate a unique key for local storage based on the chart's title and metric
+  const localStorageKey = `chartType_${title.replace(/\W+/g, '_')}_${metric}`;
+
+  const [chartType, setChartType] = useState<'line' | 'bar'>(() => {
+    // Initialize state from local storage, default to 'line' if not set
+    try {
+      const savedChartType = localStorage.getItem(localStorageKey);
+      return savedChartType === 'bar' ? 'bar' : 'line';
+    } catch {
+      return 'line';
+    }
+  });
+
+  // Update local storage whenever chart type changes
+  useEffect(() => {
+    try {
+      localStorage.setItem(localStorageKey, chartType);
+    } catch {
+      // Silently fail if localStorage is not available
+    }
+  }, [chartType, localStorageKey]);
+  const colors = ["#8AB2C7", "#609ac0", "#C9D6D3"];
+  
 
   const formatYAxis = (value: number | string) => {
     if (typeof value === 'string') {
@@ -115,7 +155,12 @@ export function MetricChart({ data, title, unit }: MetricChartProps) {
               <Tooltip />
               <Legend />
               {metricKeys.map((key, index) => (
-                <Bar key={key} dataKey={key} fill={colors[index % colors.length]} />
+                <Bar 
+                  key={key} 
+                  dataKey={key} 
+                  fill={colors[index % colors.length]}
+                  shape={<RoundedBar />} // Added rounded bar shape
+                />
               ))}
             </BarChart>
           )}
