@@ -1,4 +1,4 @@
-import { useState} from 'react';
+import { useState, useEffect } from 'react';
 import { Activity } from 'lucide-react';
 import { CountrySelector } from './components/CountrySelector';
 import { MetricChart } from './components/MetricChart';
@@ -11,6 +11,7 @@ function App() {
   const [selectedCountries, setSelectedCountries] = useState<Country[]>([]);
   const [currentMetric, setCurrentMetric] = useState(HEALTH_METRICS[0].id);
   const [yearRange, setYearRange] = useState({ start: 2015, end: 2023 });
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   const { chartData, loading, error } = useHealthData({
     selectedCountries,
@@ -23,23 +24,36 @@ function App() {
   // Helper Functions
   const handleCountrySelect = (country: Country) => {
     if (selectedCountries.length >= 3) {
-      alert('You can only select up to 3 countries.');
+      setToast({ message: 'You can only select up to 3 countries.', type: 'error' });
       return;
     }
     setSelectedCountries([...selectedCountries, country]);
+    setToast({ message: `${country.name} added successfully.`, type: 'success' });
   };
 
   const handleCountryRemove = (countryCode: string) => {
+    const removedCountry = selectedCountries.find(c => c.code === countryCode);
     setSelectedCountries(selectedCountries.filter((c) => c.code !== countryCode));
+    if (removedCountry) {
+      setToast({ message: `${removedCountry.name} removed successfully.`, type: 'success' });
+    }
   };
 
   const handleYearRangeChange = (start: number, end: number) => {
     setYearRange({ start, end });
   };
 
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => {
+        setToast(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 relative">
       {/* Header Section */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -76,7 +90,7 @@ function App() {
 
           {/* Main Chart Area */}
           <div className="lg:col-span-3">
-            {/* Error State displaying error on consol and provide user friendly error message users */}
+            {/* Error State displaying error on console and provide user friendly error message users */}
             {error && (
               <>
                 {console.error("Offline Error:", error)}
@@ -136,8 +150,20 @@ function App() {
           </div>
         </div>
       </main>
+
+      {/* Toast Notification */}
+      {toast && (
+        <div className={`fixed bottom-4 right-4 px-4 py-2 rounded-lg shadow-lg transition-all duration-500 ease-in-out transform translate-y-0 opacity-100 ${
+          toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'
+        }`}>
+          <p className="text-white text-sm font-medium">
+            {toast.message}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
 
 export default App;
+
