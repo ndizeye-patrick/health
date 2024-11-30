@@ -21,7 +21,7 @@ interface MetricChartProps {
 
 export function MetricChart({ data, title, metric, unit }: MetricChartProps) {
   const [chartType, setChartType] = useState<'line' | 'bar'>('line');
-  const colors = ['#2563eb', '#dc2626', '#16a34a'];
+  const colors = ["#8AB2C7", "#609ac0", "#C9D6D3"];
 
   const formatYAxis = (value: number | string) => {
     if (typeof value === 'string') {
@@ -72,7 +72,7 @@ export function MetricChart({ data, title, metric, unit }: MetricChartProps) {
           <button
             onClick={() => setChartType('line')}
             className={`px-3 py-1 rounded-md ${
-              chartType === 'line' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
+              chartType === 'line' ? 'bg-color text-white' : 'bg-gray-200 text-gray-700'
             }`}
           >
             Line
@@ -80,7 +80,7 @@ export function MetricChart({ data, title, metric, unit }: MetricChartProps) {
           <button
             onClick={() => setChartType('bar')}
             className={`ml-2 px-3 py-1 rounded-md ${
-              chartType === 'bar' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
+              chartType === 'bar' ? 'bg-color text-white' : 'bg-gray-200 text-gray-700'
             }`}
           >
             Bar
