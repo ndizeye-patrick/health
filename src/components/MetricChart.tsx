@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   LineChart,
   Line,
@@ -19,7 +19,7 @@ interface MetricChartProps {
   unit?: string;
 }
 
-export function MetricChart({ data, title, metric, unit }: MetricChartProps) {
+export function MetricChart({ data, title, unit }: MetricChartProps) {
   const [chartType, setChartType] = useState<'line' | 'bar'>('line');
   const colors = ['#2563eb', '#dc2626', '#16a34a'];
 

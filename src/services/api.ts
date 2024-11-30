@@ -1,6 +1,9 @@
+import { HealthData } from './../types/index';
 const API_BASE_URL = 'https://ghoapi.azureedge.net/api';
 const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
 
+
+  
 export async function fetchHealthData(indicator: string, filter?: string): Promise<{ value: HealthData[] }> {
   try {
     if (!indicator) throw new Error('Indicator parameter is required');

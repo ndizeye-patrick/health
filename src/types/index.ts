@@ -6,6 +6,7 @@ export interface HealthMetric {
 }
 
 export interface HealthData {
+  
   Id: string;
   IndicatorCode: string;
   NumericValue?: number; // Optional property
@@ -16,6 +17,7 @@ export interface HealthData {
   TimeDim: number;
   Value: number;
   Type: string;
+  
 }
 
 export type Country = {
