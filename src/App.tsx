@@ -92,37 +92,41 @@ function App() {
           <div className="lg:col-span-3">
             {/* Error State displaying error on console and provide user friendly error message users */}
             {error && (
-              <>
-                {console.error("Offline Error:", error)}
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                  <div className="bg-white shadow-lg rounded-lg p-6 w-80 md:w-96 transform transition hover:scale-105 hover:shadow-2xl">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-16 w-16 mx-auto text-blue-600"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}>
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9.75 9V6.75a3 3 0 013-3h0a3 3 0 013 3V9m3 12H6m0 0a3 3 0 01-3-3v-3a3 3 0 013-3h12a3 3 0 013 3v3a3 3 0 01-3 3zm3-12v3"
-                      />
-                    </svg>
-                    <h1 className="text-xl font-semibold mt-4 text-gray-800">
-                      You Are Offline
-                    </h1>
-                    <p className="text-gray-500 mt-2">
-                      Please check your internet connection to continue.
-                    </p>
-                    <button
-                      onClick={() => window.location.reload()}
-                      className="mt-4 px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition focus:ring-2 focus:ring-blue-300">
-                      Try Again
-                    </button>
+              // <>
+              //   {console.error("Offline Error:", error)}
+              //   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+              //     <div
+              //       className="bg-white shadow-lg rounded-lg p-6 w-80 md:w-96 transform transition hover:scale-105 hover:shadow-2xl">
+              //       <svg
+              //         xmlns="http://www.w3.org/2000/svg"
+              //         className="h-16 w-16 mx-auto text-blue-600"
+              //         fill="none"
+              //         viewBox="0 0 24 24"
+              //         stroke="currentColor"
+              //         strokeWidth={2}>
+              //         <path
+              //           strokeLinecap="round"
+              //           strokeLinejoin="round"
+              //           d="M9.75 9V6.75a3 3 0 013-3h0a3 3 0 013 3V9m3 12H6m0 0a3 3 0 01-3-3v-3a3 3 0 013-3h12a3 3 0 013 3v3a3 3 0 01-3 3zm3-12v3"
+              //         />
+              //       </svg>
+              //       <h1 className="text-xl font-semibold mt-4 text-gray-800">
+              //         You Are Offline
+              //       </h1>
+              //       <p className="text-gray-500 mt-2">
+              //         Please check your internet connection to continue.
+              //       </p>
+              //       <button
+              //         onClick={() => window.location.reload()}
+              //         className="mt-4 px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition focus:ring-2 focus:ring-blue-300">
+              //         Try Again
+              //       </button>
+              //     </div>
+              //   </div>
+              // </>
+                  <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md mb-6">
+                    Error: {error}
                   </div>
-                </div>
-              </>
             )}
 
             {/* Loading State */}
@@ -153,12 +157,11 @@ function App() {
 
       {/* Toast Notification */}
       {toast && (
-        <div className={`fixed bottom-4 right-4 px-4 py-2 rounded-lg shadow-lg transition-all duration-500 ease-in-out transform translate-y-0 opacity-100 ${
-          toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'
-        }`}>
-          <p className="text-white text-sm font-medium">
-            {toast.message}
-          </p>
+        <div
+          className={`fixed bottom-4 right-4 px-4 py-2 rounded-lg shadow-lg transition-all duration-500 ease-in-out transform translate-y-0 opacity-100 ${
+            toast.type === "success" ? "bg-green-500" : "bg-red-500"
+          }`}>
+          <p className="text-white text-sm font-medium">{toast.message}</p>
         </div>
       )}
     </div>
