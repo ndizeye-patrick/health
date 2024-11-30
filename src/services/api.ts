@@ -5,7 +5,7 @@ export async function fetchHealthData(indicator: string, filter?: string): Promi
   try {
     if (!indicator) throw new Error('Indicator parameter is required');
 
-    const url = `${API_BASE_URL}/${indicator}${filter ? `?$filter=${filter} ne null` : ''}`;
+    const url = `${API_BASE_URL}/${indicator}${filter ? `?$filter=${filter}` : ''}`;
     console.log('Fetching from URL:', url);
 
     const response = await fetch(CORS_PROXY + url, {
