@@ -1,17 +1,17 @@
 import { HealthData } from './../types/index';
-const API_BASE_URL = 'https://ghoapi.azureedge.net/api';
-const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
 
 
-  
+
+
+
 export async function fetchHealthData(indicator: string, filter?: string): Promise<{ value: HealthData[] }> {
   try {
     if (!indicator) throw new Error('Indicator parameter is required');
 
-    const url = `${API_BASE_URL}/${indicator}${filter ? `?$filter=${filter}` : ''}`;
+    const url = `${import.meta.env.VITE_API_BASE_URL}/${indicator}${filter ? `?$filter=${filter}` : ''}`;
     console.log('Fetching from URL:', url);
 
-    const response = await fetch(CORS_PROXY + url, {
+    const response = await fetch(import.meta.env.VITE_CORS_PROXY + url, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -23,6 +23,7 @@ export async function fetchHealthData(indicator: string, filter?: string): Promi
     if (!response.ok) {
       const errorText = await response.text();
       console.error('API Error:', response.status, response.statusText, errorText);
+      console.log(import.meta.env.VITE_CORS_PROXY)
       throw new Error(`Failed with status ${response.status}: ${response.statusText}`);
     }
 
